@@ -1,0 +1,184 @@
+﻿{
+    "MT": [
+        {
+            "ID_COMPETENCIA": "1",
+            "COMPETENCIA": "Construir significados para os números naturais, inteiros, racionais e reais.",
+            "ID_HABILIDADE": "1",
+            "HABILIDADE": "Reconhecer, no contexto social, diferentes significados e representações dos números e operações - naturais, inteiros, racionais ou reais."
+        },
+        {
+            "ID_COMPETENCIA": "1",
+            "COMPETENCIA": "Construir significados para os números naturais, inteiros, racionais e reais.",
+            "ID_HABILIDADE": "2",
+            "HABILIDADE": "Identificar padrões numéricos ou princípios de contagem."
+        },
+        {
+            "ID_COMPETENCIA": "1",
+            "COMPETENCIA": "Construir significados para os números naturais, inteiros, racionais e reais.",
+            "ID_HABILIDADE": "3",
+            "HABILIDADE": "Resolver situação-problema envolvendo conhecimentos numéricos."
+        },
+        {
+            "ID_COMPETENCIA": "1",
+            "COMPETENCIA": "Construir significados para os números naturais, inteiros, racionais e reais.",
+            "ID_HABILIDADE": "4",
+            "HABILIDADE": "Avaliar a razoabilidade de um resultado numérico na construção de argumentos sobre afirmações quantitativas."
+        },
+        {
+            "ID_COMPETENCIA": "1",
+            "COMPETENCIA": "Construir significados para os números naturais, inteiros, racionais e reais.",
+            "ID_HABILIDADE": "5",
+            "HABILIDADE": "Avaliar propostas de intervenção na realidade utilizando conhecimentos numéricos."
+        },
+        {
+            "ID_COMPETENCIA": "2",
+            "COMPETENCIA": "Utilizar o conhecimento geométrico para realizar a leitura e a representação da realidade e agir sobre ela.",
+            "ID_HABILIDADE": "6",
+            "HABILIDADE": "Interpretar a localização e a movimentação de pessoas/objetos no espaço tridimensional e sua representação no espaço bidimensional."
+        },
+        {
+            "ID_COMPETENCIA": "2",
+            "COMPETENCIA": "Utilizar o conhecimento geométrico para realizar a leitura e a representação da realidade e agir sobre ela.",
+            "ID_HABILIDADE": "7",
+            "HABILIDADE": "Identificar características de figuras planas ou espaciais."
+        },
+        {
+            "ID_COMPETENCIA": "2",
+            "COMPETENCIA": "Utilizar o conhecimento geométrico para realizar a leitura e a representação da realidade e agir sobre ela.",
+            "ID_HABILIDADE": "8",
+            "HABILIDADE": "Resolver situação-problema que envolva conhecimentos geométricos de espaço e forma."
+        },
+        {
+            "ID_COMPETENCIA": "2",
+            "COMPETENCIA": "Utilizar o conhecimento geométrico para realizar a leitura e a representação da realidade e agir sobre ela.",
+            "ID_HABILIDADE": "9",
+            "HABILIDADE": "Utilizar conhecimentos geométricos de espaço e forma na seleção de argumentos propostos como solução de problemas do cotidiano."
+        },
+        {
+            "ID_COMPETENCIA": "3",
+            "COMPETENCIA": "Construir noções de grandezas e medidas para a compreensão da realidade e a solução de problemas do cotidiano.",
+            "ID_HABILIDADE": "10",
+            "HABILIDADE": "Identificar relações entre grandezas e unidades de medida."
+        },
+        {
+            "ID_COMPETENCIA": "3",
+            "COMPETENCIA": "Construir noções de grandezas e medidas para a compreensão da realidade e a solução de problemas do cotidiano.",
+            "ID_HABILIDADE": "11",
+            "HABILIDADE": "Utilizar a noção de escalas na leitura de representação de situação do cotidiano."
+        },
+        {
+            "ID_COMPETENCIA": "3",
+            "COMPETENCIA": "Construir noções de grandezas e medidas para a compreensão da realidade e a solução de problemas do cotidiano.",
+            "ID_HABILIDADE": "12",
+            "HABILIDADE": "Resolver situação-problema que envolva medidas de grandezas."
+        },
+        {
+            "ID_COMPETENCIA": "3",
+            "COMPETENCIA": "Construir noções de grandezas e medidas para a compreensão da realidade e a solução de problemas do cotidiano.",
+            "ID_HABILIDADE": "13",
+            "HABILIDADE": "Avaliar o resultado de uma medição na construção de um argumento consistente."
+        },
+        {
+            "ID_COMPETENCIA": "3",
+            "COMPETENCIA": "Construir noções de grandezas e medidas para a compreensão da realidade e a solução de problemas do cotidiano.",
+            "ID_HABILIDADE": "14",
+            "HABILIDADE": "Avaliar proposta de intervenção na realidade utilizando conhecimentos geométricos relacionados a grandezas e medidas."
+        },
+        {
+            "ID_COMPETENCIA": "4",
+            "COMPETENCIA": "Construir noções de variação de grandezas para a compreensão da realidade e a solução de problemas do cotidiano.",
+            "ID_HABILIDADE": "15",
+            "HABILIDADE": "Identificar a relação de dependência entre grandezas."
+        },
+        {
+            "ID_COMPETENCIA": "4",
+            "COMPETENCIA": "Construir noções de variação de grandezas para a compreensão da realidade e a solução de problemas do cotidiano.",
+            "ID_HABILIDADE": "16",
+            "HABILIDADE": "Resolver situação-problema envolvendo a variação de grandezas, direta ou inversamente proporcionais."
+        },
+        {
+            "ID_COMPETENCIA": "4",
+            "COMPETENCIA": "Construir noções de variação de grandezas para a compreensão da realidade e a solução de problemas do cotidiano.",
+            "ID_HABILIDADE": "17",
+            "HABILIDADE": "Analisar informações envolvendo a variação de grandezas como recurso para a construção de argumentação."
+        },
+        {
+            "ID_COMPETENCIA": "4",
+            "COMPETENCIA": "Construir noções de variação de grandezas para a compreensão da realidade e a solução de problemas do cotidiano.",
+            "ID_HABILIDADE": "18",
+            "HABILIDADE": "Avaliar propostas de intervenção na realidade envolvendo variação de grandezas."
+        },
+        {
+            "ID_COMPETENCIA": "5",
+            "COMPETENCIA": "Modelar e resolver problemas que envolvem variáveis socioeconômicas ou técnico-científicas, usando representações algébricas.",
+            "ID_HABILIDADE": "19",
+            "HABILIDADE": "Identificar representações algébricas que expressem a relação entre grandezas."
+        },
+        {
+            "ID_COMPETENCIA": "5",
+            "COMPETENCIA": "Modelar e resolver problemas que envolvem variáveis socioeconômicas ou técnico-científicas, usando representações algébricas.",
+            "ID_HABILIDADE": "20",
+            "HABILIDADE": "Interpretar gráfico cartesiano que represente relações entre grandezas."
+        },
+        {
+            "ID_COMPETENCIA": "5",
+            "COMPETENCIA": "Modelar e resolver problemas que envolvem variáveis socioeconômicas ou técnico-científicas, usando representações algébricas.",
+            "ID_HABILIDADE": "21",
+            "HABILIDADE": "Resolver situação-problema cuja modelagem envolva conhecimentos algébricos."
+        },
+        {
+            "ID_COMPETENCIA": "5",
+            "COMPETENCIA": "Modelar e resolver problemas que envolvem variáveis socioeconômicas ou técnico-científicas, usando representações algébricas.",
+            "ID_HABILIDADE": "22",
+            "HABILIDADE": "Utilizar conhecimentos algébricos/geométricos como recurso para a construção de argumentação."
+        },
+        {
+            "ID_COMPETENCIA": "5",
+            "COMPETENCIA": "Modelar e resolver problemas que envolvem variáveis socioeconômicas ou técnico-científicas, usando representações algébricas.",
+            "ID_HABILIDADE": "23",
+            "HABILIDADE": "Avaliar propostas de intervenção na realidade utilizando conhecimentos algébricos."
+        },
+        {
+            "ID_COMPETENCIA": "6",
+            "COMPETENCIA": "Interpretar informações de natureza científica e social obtidas da leitura de gráficos e tabelas, realizando previsão de tendência, extrapolação, interpolação e interpretação.",
+            "ID_HABILIDADE": "24",
+            "HABILIDADE": "Utilizar informações expressas em gráficos ou tabelas para fazer inferências."
+        },
+        {
+            "ID_COMPETENCIA": "6",
+            "COMPETENCIA": "Interpretar informações de natureza científica e social obtidas da leitura de gráficos e tabelas, realizando previsão de tendência, extrapolação, interpolação e interpretação.",
+            "ID_HABILIDADE": "25",
+            "HABILIDADE": "Resolver problema com dados apresentados em tabelas ou gráficos."
+        },
+        {
+            "ID_COMPETENCIA": "6",
+            "COMPETENCIA": "Interpretar informações de natureza científica e social obtidas da leitura de gráficos e tabelas, realizando previsão de tendência, extrapolação, interpolação e interpretação.",
+            "ID_HABILIDADE": "26",
+            "HABILIDADE": "Analisar informações expressas em gráficos ou tabelas como recurso para a construção de argumentos."
+        },
+        {
+            "ID_COMPETENCIA": "7",
+            "COMPETENCIA": "Compreender o caráter aleatório e não-determinístico dos fenômenos naturais e sociais e utilizar instrumentos adequados para medidas, determinação de amostras e cálculos de probabilidade para interpretar informações de variáveis apresentadas em uma distribuição estatística.",
+            "ID_HABILIDADE": "27",
+            "HABILIDADE": "Calcular medidas de tendência central ou de dispersão de um conjunto de dados expressos em uma tabela de frequências de dados agrupados (não em classes) ou em gráficos."
+        },
+        {
+            "ID_COMPETENCIA": "7",
+            "COMPETENCIA": "Compreender o caráter aleatório e não-determinístico dos fenômenos naturais e sociais e utilizar instrumentos adequados para medidas, determinação de amostras e cálculos de probabilidade para interpretar informações de variáveis apresentadas em uma distribuição estatística.",
+            "ID_HABILIDADE": "28",
+            "HABILIDADE": "Resolver situação-problema que envolva conhecimentos de estatística e probabilidade."
+        },
+        {
+            "ID_COMPETENCIA": "7",
+            "COMPETENCIA": "Compreender o caráter aleatório e não-determinístico dos fenômenos naturais e sociais e utilizar instrumentos adequados para medidas, determinação de amostras e cálculos de probabilidade para interpretar informações de variáveis apresentadas em uma distribuição estatística.",
+            "ID_HABILIDADE": "29",
+            "HABILIDADE": "Utilizar conhecimentos de estatística e probabilidade como recurso para a construção de argumentação."
+        },
+        {
+            "ID_COMPETENCIA": "7",
+            "COMPETENCIA": "Compreender o caráter aleatório e não-determinístico dos fenômenos naturais e sociais e utilizar instrumentos adequados para medidas, determinação de amostras e cálculos de probabilidade para interpretar informações de variáveis apresentadas em uma distribuição estatística.",
+            "ID_HABILIDADE": "30",
+            "HABILIDADE": "Avaliar propostas de intervenção na realidade utilizando conhecimentos de estatística e probabilidade."
+        }
+    ]
+}
