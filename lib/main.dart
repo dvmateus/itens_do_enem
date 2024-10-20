@@ -10,15 +10,11 @@ class MicrodadosEnem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [
-        // ... app-specific localization delegate[s] here
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+      theme: ThemeData.light(useMaterial3: false),
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: [
-        const Locale('en', ''),
         const Locale('pt', 'BR'),
+        const Locale('pt', ''),
       ],
       debugShowCheckedModeBanner: false,
       title: "Itens do Enem",

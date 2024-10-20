@@ -8,14 +8,11 @@ const CONTEUDO_DIALOGO_INFO =
 "\n\n"
 "Nesse popup há um botão que permite visualizar um caderno que contenha o item."
 "\n\n"
-"O aplicativo contém apenas os cadernos de cor cinza, no entanto, ao tocar no "
-"referido botão, caso exista, será aberto um caderno de cor cinza que contenha "
-"o item."
+"O aplicativo contém apenas os cadernos de cor cinza."
 "\n\n"
 "O caderno será exibido diretamente na página que contém o item. Um bunner informando "
-"o gabarito e o número do item correspondente será exibido na parte superior."
-"\n\n"
-"Desenvolvedor: Samy Lourenço."
-"\n"
-"Contato: professorsamylourenco@gmail.com"
-;
+"o gabarito e o número do item correspondente será exibido na parte superior.";
+
+const LINK_POLITICA_PRIVACIDADE = "https://sites.google.com/view/app-itens-do-enem/pol%C3%ADtica-de-pricacidade";
+
+const ERRO_CARREGAR_PAGINA = "Não foi possível carregar a página, mas a Política de Privacidade está disponível em $LINK_POLITICA_PRIVACIDADE";

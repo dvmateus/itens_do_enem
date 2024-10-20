@@ -3,33 +3,33 @@ import 'package:itens_do_enem/exibicao_pdf.dart';
 import 'package:itens_do_enem/globais.dart';
 import 'package:itens_do_enem/item.dart';
 
-class ItensDataTableSource extends DataTableSource{
+class ItensDataTableSource extends DataTableSource {
   ItensDataTableSource({
-    @required this.context,
-    @required this.itens,
-  }): assert (debugCheckHasMaterialLocalizations(context)),
-      assert (itens != null);
+    required this.context,
+    required this.itens,
+  }) : assert(debugCheckHasMaterialLocalizations(context));
 
   final BuildContext context;
   final List<Item> itens;
 
   @override
   DataRow getRow(int index) {
-    final _item = itens[index];
+    final item = itens[index];
     return DataRow.byIndex(
-      onSelectChanged: (_) => _onSelectChanged(habilidades[_item.idHabilidade], _item),
-      index: index,
-      cells: [
-        DataCell(Text(_item.ano.toString())),
-        //DataCell(Text(_item.cod_area)),
-        DataCell(Text(_item.corCaderno)),
-        DataCell(Text(_item.idOrdem.toString())),
-        DataCell(Text(_item.gabarito)),
-        DataCell(Text(_item.idHabilidade.toString())),
-        DataCell(Text(_item.idProva.toString()))
-        //, DataCell(Text(_item.serie.toString()))
-      ]
-    );
+        onSelectChanged: (_) {
+          final hab = habilidades[item.idHabilidade];
+          if (hab != null) {
+            _onSelectChanged(hab, item);
+          }
+        },
+        index: index,
+        cells: [
+          DataCell(Text(item.ano.toString())),
+          DataCell(Text(item.idOrdem.toString())),
+          DataCell(Text(item.gabarito)),
+          DataCell(Text(item.idHabilidade.toString())),
+          DataCell(Text(item.idProva.toString()))
+        ]);
   }
 
   @override
@@ -41,39 +41,45 @@ class ItensDataTableSource extends DataTableSource{
   @override
   int get selectedRowCount => 0;
 
-  void _onSelectChanged(Habilidade hab, Item item){
+  void _onSelectChanged(Habilidade hab, Item item) {
     showDialog(
       context: context,
-      child: AlertDialog(
-        insetPadding: EdgeInsets.fromLTRB(16, 72, 16, 40),
-        title: Text("Competência de área ${hab.competencia.id} - ${hab.competencia.descricao}"),
-        content: Text("H${hab.id} - ${hab.descricao}"),
-        actions: [
-          MaterialButton(
-            onPressed: () => Navigator.of(context,rootNavigator: true).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => ExibicaoPDF(item: item)
-            )),
-            child: const Text("Ver prova")
-          ),
-          MaterialButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Fechar")
-          )
-        ],
-      )
+      builder: (context) {
+        return AlertDialog(
+          insetPadding: EdgeInsets.fromLTRB(16, 72, 16, 40),
+          title: Text(
+              "Competência de área ${hab.competencia.id} - ${hab.competencia.descricao}"),
+          content: Text("H${hab.id} - ${hab.descricao}"),
+          actions: [
+            MaterialButton(
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            ExibicaoPDF(item: item),
+                      ),
+                    ),
+                child: const Text("Ver prova")),
+            MaterialButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Fechar"),
+            )
+          ],
+        );
+      },
     );
   }
 
   void sort<T>(
-      Comparable<T> Function(Item item) getField,
-      bool ascending,
-  ){
-    itens.sort((a, b){
+    Comparable<T> Function(Item item) getField,
+    bool ascending,
+  ) {
+    itens.sort((a, b) {
       final aValor = getField(a);
       final bValor = getField(b);
       return ascending
-        ? Comparable.compare(aValor, bValor)
-        : Comparable.compare(bValor, aValor);
+          ? Comparable.compare(aValor, bValor)
+          : Comparable.compare(bValor, aValor);
     });
     notifyListeners();
   }

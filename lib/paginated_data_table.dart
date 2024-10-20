@@ -1,13 +1,26 @@
-// Copyright 2014 The Flutter Authors. All rights reserved.
+/* // Copyright 2014 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// @dart = 2.8
-
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/gestures.dart' show DragStartBehavior;
+
+import 'button_bar.dart';
+import 'card.dart';
+import 'constants.dart';
+import 'data_table.dart';
+import 'data_table_source.dart';
+import 'debug.dart';
+import 'dropdown.dart';
+import 'icon_button.dart';
+import 'icons.dart';
+import 'ink_decoration.dart';
+import 'material_localizations.dart';
+import 'progress_indicator.dart';
+import 'theme.dart';
 
 /// A material design data table that shows data using multiple pages.
 ///
@@ -21,7 +34,7 @@ import 'package:flutter/gestures.dart' show DragStartBehavior;
 ///
 ///  * [DataTable], which is not paginated.
 ///  * <https://material.io/go/design-data-tables#data-tables-tables-within-cards>
-class MeuPaginatedDataTable extends StatefulWidget {
+class PaginatedDataTable extends StatefulWidget {
   /// Creates a widget describing a paginated [DataTable] on a [Card].
   ///
   /// The [header] should give the card's header, typically a [Text] widget. It
@@ -42,17 +55,16 @@ class MeuPaginatedDataTable extends StatefulWidget {
   ///
   /// The [source] must not be null. The [source] should be a long-lived
   /// [DataTableSource]. The same source should be provided each time a
-  /// particular [MeuPaginatedDataTable] widget is created; avoid creating a new
-  /// [DataTableSource] with each new instance of the [MeuPaginatedDataTable]
+  /// particular [PaginatedDataTable] widget is created; avoid creating a new
+  /// [DataTableSource] with each new instance of the [PaginatedDataTable]
   /// widget unless the data table really is to now show entirely different
   /// data from a new source.
   ///
   /// The [rowsPerPage] and [availableRowsPerPage] must not be null (they
   /// both have defaults, though, so don't have to be specified).
-  MeuPaginatedDataTable({
+  PaginatedDataTable({
     Key key,
-    //@required this.header,
-    this.header,
+    @required this.header,
     this.actions,
     @required this.columns,
     this.sortColumnIndex,
@@ -70,7 +82,7 @@ class MeuPaginatedDataTable extends StatefulWidget {
     this.onRowsPerPageChanged,
     this.dragStartBehavior = DragStartBehavior.start,
     @required this.source,
-  }) : //assert(header != null),
+  }) : assert(header != null),
        assert(columns != null),
        assert(dragStartBehavior != null),
        assert(columns.isNotEmpty),
@@ -195,21 +207,21 @@ class MeuPaginatedDataTable extends StatefulWidget {
   /// The data source which provides data to show in each row. Must be non-null.
   ///
   /// This object should generally have a lifetime longer than the
-  /// [MeuPaginatedDataTable] widget itself; it should be reused each time the
-  /// [MeuPaginatedDataTable] constructor is called.
+  /// [PaginatedDataTable] widget itself; it should be reused each time the
+  /// [PaginatedDataTable] constructor is called.
   final DataTableSource source;
 
   /// {@macro flutter.widgets.scrollable.dragStartBehavior}
   final DragStartBehavior dragStartBehavior;
 
   @override
-  MeuPaginatedDataTableState createState() => MeuPaginatedDataTableState();
+  PaginatedDataTableState createState() => PaginatedDataTableState();
 }
 
-/// Holds the state of a [MeuPaginatedDataTable].
+/// Holds the state of a [PaginatedDataTable].
 ///
 /// The table can be programmatically paged using the [pageTo] method.
-class MeuPaginatedDataTableState extends State<MeuPaginatedDataTable> {
+class PaginatedDataTableState extends State<PaginatedDataTable> {
   int _firstRowIndex;
   int _rowCount;
   bool _rowCountApproximate;
@@ -225,7 +237,7 @@ class MeuPaginatedDataTableState extends State<MeuPaginatedDataTable> {
   }
 
   @override
-  void didUpdateWidget(MeuPaginatedDataTable oldWidget) {
+  void didUpdateWidget(PaginatedDataTable oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.source != widget.source) {
       oldWidget.source.removeListener(_handleDataSourceChanged);
@@ -333,6 +345,7 @@ class MeuPaginatedDataTableState extends State<MeuPaginatedDataTable> {
         // around each button on each side, and the button itself will have 8
         // pixels internally on each side, yet we want the left edge of the
         // inside of the button to line up with the 24.0 left inset.
+        // TODO(ianh): Better magic. See https://github.com/flutter/flutter/issues/4460
         startPadding = 12.0;
       }
     } else {
@@ -418,9 +431,9 @@ class MeuPaginatedDataTableState extends State<MeuPaginatedDataTable> {
         return Card(
           semanticContainer: false,
           child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-             /* Semantics(
+              Semantics(
                 container: true,
                 child: DefaultTextStyle(
                   // These typographic styles aren't quite the regular ones. We pick the closest ones from the regular
@@ -438,14 +451,14 @@ class MeuPaginatedDataTableState extends State<MeuPaginatedDataTable> {
                       child: Padding(
                         padding: EdgeInsetsDirectional.only(start: startPadding, end: 14.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: headerWidgets,
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),*/
+              ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 dragStartBehavior: widget.dragStartBehavior,
@@ -461,8 +474,6 @@ class MeuPaginatedDataTableState extends State<MeuPaginatedDataTable> {
                     headingRowHeight: widget.headingRowHeight,
                     horizontalMargin: widget.horizontalMargin,
                     columnSpacing: widget.columnSpacing,
-                    showCheckboxColumn: widget.showCheckboxColumn,
-                    showBottomBorder: true,
                     rows: _getRows(_firstRowIndex, widget.rowsPerPage),
                   ),
                 ),
@@ -473,17 +484,14 @@ class MeuPaginatedDataTableState extends State<MeuPaginatedDataTable> {
                   data: const IconThemeData(
                     opacity: 0.54
                   ),
-                  child: Container(alignment: Alignment.centerRight,
-                    // TODO(bkonyi): this won't handle text zoom correctly,
-                    //  https://github.com/flutter/flutter/issues/48522
+                  child: Container(
+                    // TODO(bkonyi): this won't handle text zoom correctly, https://github.com/flutter/flutter/issues/48522
                     height: 56.0,
                     child: SingleChildScrollView(
                       dragStartBehavior: widget.dragStartBehavior,
                       scrollDirection: Axis.horizontal,
                       reverse: true,
                       child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
                         children: footerWidgets,
                       ),
                     ),
@@ -497,3 +505,4 @@ class MeuPaginatedDataTableState extends State<MeuPaginatedDataTable> {
     );
   }
 }
+ */
