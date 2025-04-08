@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:itens_do_enem/armazenamento.dart';
 import 'package:itens_do_enem/item.dart';
@@ -152,7 +150,7 @@ class _ExibicaoPDFState extends State<ExibicaoPDF> {
         builder: (context, widget) {
           return AnimatedContainer(
             padding: const EdgeInsets.only(left: 32, bottom: 16),
-            color: Colors.black.withOpacity(0.65),
+            color: Colors.black.withAlpha(165),
             width: double.maxFinite,
             height: _controleAnimacaoBanner.altura,
             duration: const Duration(milliseconds: 300),

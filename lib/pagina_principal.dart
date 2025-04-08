@@ -48,6 +48,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal>
     }
   }
 
+  // ignore: unused_element
   Widget _getIconSort(bool ascendente) => ascendente
       ? const Icon(Icons.keyboard_arrow_down_rounded)
       : const Icon(Icons.keyboard_arrow_up_rounded);
@@ -161,18 +162,6 @@ class _PaginaPrincipalState extends State<PaginaPrincipal>
     return MaterialButton(
       onPressed: () => Navigator.pop(context),
       child: const Text("Fechar"),
-    );
-  }
-
-  Widget _botaoFiltrar() {
-    return IconButton(
-      icon: const Icon(
-        Icons.filter_alt_sharp,
-      ),
-      onPressed: () => showDialog(
-        context: context,
-        builder: (context) => DialogoSelecao(),
-      ),
     );
   }
 
