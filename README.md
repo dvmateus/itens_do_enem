@@ -1,16 +1,26 @@
 # itens_do_enem
 
-A new Flutter project.
+Aplicativo Flutter para consulta dos itens do ENEM consumindo todos os dados
+diretamente do Supabase.
 
-## Getting Started
+## Configuração do Supabase
 
-This project is a starting point for a Flutter application.
+O aplicativo utiliza o pacote `supabase_connect` para acessar as tabelas e os
+arquivos de prova hospedados no Supabase. Para executar o projeto é necessário
+informar a URL do projeto e a chave pública (anon key) por meio de `dart-define`:
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+flutter run \
+  --dart-define=SUPABASE_URL=https://<sua-url>.supabase.co \
+  --dart-define=SUPABASE_ANON_KEY=<sua-chave-anonima>
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+As mesmas variáveis devem ser informadas para builds de release ou execução de
+testes.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Dependências
+
+- [supabase_connect](packages/supabase_connect): cliente HTTP leve para a API do
+  Supabase.
+- `flutter_pdfview` para renderização dos PDFs baixados do Supabase.
+- `path_provider` para armazenar temporariamente os arquivos baixados.

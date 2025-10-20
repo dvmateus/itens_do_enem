@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:itens_do_enem/armazenamento.dart';
-import 'package:itens_do_enem/item.dart';
+import 'package:path_provider/path_provider.dart';
 
-import 'excecoes.dart';
+import 'item.dart';
+import 'services/supabase_repository.dart';
 
 class ExibicaoPDF extends StatefulWidget {
   final Item item;
@@ -27,22 +27,23 @@ class _ExibicaoPDFState extends State<ExibicaoPDF> {
   late _ControleAnimacaoCarregamento _controleAnimacaoCarregamento;
   _ControleAnimacaoBanner _controleAnimacaoBanner = _ControleAnimacaoBanner();
 
+  final SupabaseRepository _repository = SupabaseRepository.instance;
+
   Future<File?> _getProva(int idProva) async {
-    File? file;
     try {
-      //Usar arquivo no armazenamento
-      file = await Armazenamento.getProva(idProva);
+      final bytes = await _repository.downloadProva(idProva);
+      final directory = await getTemporaryDirectory();
+      final file = File('${directory.path}/prova_$idProva.pdf');
+      await file.writeAsBytes(bytes, flush: true);
       return file;
-    }
-    //Ocorrido em getDirProvas()
-    on AcessoAoArmazenamentoNegadoPermanentemente {
-      final msg =
-          "Se a permissão permanecer como negada as provas serão carregadas "
-          "mais lentamente.";
-      Armazenamento.abrirConfiguracoesApp(context, msg);
-      return null;
-    } catch (e) {
-      //Caso não seja possível usar o arquivo no armazenamento
+    } catch (error) {
+      setState(() {
+        errorMessage = error.toString();
+      });
+      if (!_controleAnimacaoCarregamento.ocorreuErro) {
+        _controleAnimacaoCarregamento.ocorreuErro = true;
+      }
+      _controleAnimacaoCarregamento.state = true;
       return null;
     }
   }
@@ -72,11 +73,24 @@ class _ExibicaoPDFState extends State<ExibicaoPDF> {
         child: AnimatedBuilder(
           animation: _controleAnimacaoCarregamento,
           builder: (context, widget) {
+            Widget child;
+            if (_doc != null) {
+              child = _buildPDFView();
+            } else if (errorMessage.isNotEmpty) {
+              child = Padding(
+                padding: const EdgeInsets.all(24),
+                child: Text(
+                  errorMessage,
+                  textAlign: TextAlign.center,
+                ),
+              );
+            } else {
+              child = const CircularProgressIndicator();
+            }
             return AnimatedContainer(
-                child: _doc == null
-                    ? const CircularProgressIndicator()
-                    : _buildPDFView(),
-                duration: const Duration(milliseconds: 300));
+              duration: const Duration(milliseconds: 300),
+              child: child,
+            );
           },
         ),
       ),

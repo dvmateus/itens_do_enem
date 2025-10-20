@@ -1,59 +1,70 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:itens_do_enem/armazenamento.dart';
-import 'package:itens_do_enem/item.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import 'globais.dart';
+import 'item.dart';
+import 'services/supabase_repository.dart';
 
-/// Esta classe usa o padrão singleton, isto é, é instanciada uma única vez.
 class Dados {
-  static final Dados _dados = Dados._interno();
-  Dados._interno() {
-    _carregarMatriz();
-    _carregarItens();
-  }
   factory Dados() => _dados;
+
+  Dados._interno({SupabaseRepository? repository})
+      : _repository = repository ?? SupabaseRepository.instance {
+    _initialize();
+  }
+
+  static final Dados _dados = Dados._interno();
+
+  final SupabaseRepository _repository;
   List<Item> _subItens = <Item>[];
   final _streamSubItens = StreamController<List<Item>>.broadcast();
 
   Stream<List<Item>> get streamSubItens => _streamSubItens.stream;
 
-  close() {
+  void _initialize() {
+    Future.microtask(() async {
+      try {
+        await _carregarMatriz();
+        await _carregarItens();
+      } catch (error, stackTrace) {
+        if (kDebugMode) {
+          print(error);
+        }
+        if (!_streamSubItens.isClosed) {
+          _streamSubItens.addError(error, stackTrace);
+        }
+      }
+    });
+  }
+
+  void close() {
     _streamSubItens.close();
   }
 
-  /// Retorna a quantidade de itens após o filtro.
   int filtrar(Map<String, dynamic> filtros) {
-    bool recriarSubItens = false; //Indica se algum filtro foi removido
+    bool recriarSubItens = false;
     filtros.forEach((key, value) {
-      if (
-          //Caso algum filtro tenha sido removido
-          (value != filtrosSelecionados[key] && value == null) ||
-              //Caso algum filtro tenha sido alterado
-              (value != filtrosSelecionados[key] &&
-                  filtrosSelecionados[key] != null)) {
+      if ((value != filtrosSelecionados[key] && value == null) ||
+          (value != filtrosSelecionados[key] && filtrosSelecionados[key] != null)) {
         recriarSubItens = true;
         filtrosSelecionados[key] = value;
       }
     });
-    if (recriarSubItens) _subItens = itens;
+    if (recriarSubItens) {
+      _subItens = List<Item>.from(itens);
+    }
     filtros.forEach((key, value) {
-      if ((value != filtrosSelecionados[key] || recriarSubItens) &&
-          value != null) {
+      if ((value != filtrosSelecionados[key] || recriarSubItens) && value != null) {
         filtrosSelecionados[key] = value;
-        _subItens = _subItens.where((_) {
-          if (key == COL_ANO)
-            return _.ano == value;
-          else if (key == COL_ID_HABILIDADE)
-            return _.idHabilidade == value;
-          else
+        _subItens = _subItens.where((Item item) {
+          if (key == COL_ANO) {
+            return item.ano == value;
+          } else if (key == COL_ID_HABILIDADE) {
+            return item.idHabilidade == value;
+          } else {
             return false;
+          }
         }).toList();
       }
     });
@@ -61,136 +72,92 @@ class Dados {
     return _subItens.length;
   }
 
-  /// Retorna um Map<String,List<Map>>.
-  Future<Map> _carregarJsonFromAsset(String path) async {
-    final string = await rootBundle.loadString(path);
-    return json.decode(string);
-  }
+  Future<void> _carregarItens() async {
+    final dados = await _repository.fetchItens();
+    itens.clear();
+    anos.clear();
+    idHabilidades.clear();
 
-    int _parceIntIfString(source){
-    if(source is int) {
-      return source;
-    }else{
-      return int.parse(source);
+    for (final registro in dados) {
+      final int ano = _parseInt(registro[COL_ANO]);
+      final int idHabilidade = _parseInt(registro[COL_ID_HABILIDADE]);
+      final int idOrdem = _parseInt(registro[COL_ID_ORDEM]);
+      final int idProva = _parseInt(registro[COL_ID_PROVA]);
+      final int numPageCaderno = registro.containsKey(COL_NUM_PAGE_CADERNO)
+          ? _parseInt(registro[COL_NUM_PAGE_CADERNO])
+          : 1;
+      final int? idCompetencia = registro.containsKey(COL_ID_COMPETENCIA)
+          ? _tryParseInt(registro[COL_ID_COMPETENCIA])
+          : null;
+
+      final item = Item(
+        ano: ano,
+        gabarito: (registro[COL_GABARITO] ?? '').toString(),
+        idHabilidade: idHabilidade,
+        idOrdem: idOrdem,
+        idProva: idProva,
+        numPageCaderno: numPageCaderno,
+        idCompetencia: idCompetencia,
+      );
+      itens.add(item);
+      anos.add(ano);
+      idHabilidades.add(idHabilidade);
     }
-  }
 
-  _carregarItens() {
-    _getItens().then((dados) {
-      //anos.addAll(_.keys.cast<int>());
-      Set provas = Set<int>();
-      dados.forEach((ano, value) {
-        anos.add(_parceIntIfString(ano));
-        List list = value;
-        list.forEach((_) {
-          // Definir primeira letra como maiúscula
-          idHabilidades.add(_parceIntIfString(_[COL_ID_HABILIDADE]));
-
-          provas.add(_parceIntIfString(_[COL_ID_PROVA]));
-
-          itens.add(Item(
-              ano: _parceIntIfString(ano),
-              gabarito: _[COL_GABARITO],
-              idHabilidade: _parceIntIfString(_[COL_ID_HABILIDADE]),
-              idOrdem: _parceIntIfString(_[COL_ID_ORDEM]),
-              idProva: _parceIntIfString(_[COL_ID_PROVA]),
-              numPageCaderno:
-                  _.containsKey(COL_NUM_PAGE_CADERNO)
-                      ? _parceIntIfString(_[COL_NUM_PAGE_CADERNO])
-                      : 1));
-        });
-      });
-      _subItens.addAll(itens);
-      _streamSubItens.sink.add(_subItens);
-    });
-  }
-
-  Future<Map> _getItens() async {
-    File? file = await Armazenamento.getJsonItens();
-    if (file == null) {
-      final acesso = await Permissao.status;
-      if (acesso.isDenied || acesso.isPermanentlyDenied) {
-        /* final msg =
-            "Se a permissão permanecer como negada o aplicativo carregará "
-            "mais lentamente."; */ //TODO
-        //Armazenamento.abrirConfiguracoesApp(context, msg);
-      }
-    } else {
-      try {
-        // Usar arquivo no armazenamento
-        return await json.decode(await file.readAsString());
-      } catch (e) {
-        if (kDebugMode) {
-          print(e.toString());
-        }
-      }
-    }
-    return await _carregarJsonFromAsset(Armazenamento.ASSETS_JSON_ITENS);
-  }
-
-  Future<Map> _getMatriz() async {
-    File? file = await Armazenamento.getJsonMatrizDeReferencia();
-    if (file == null) {
-      final acesso = await Permissao.status;
-      if (acesso.isDenied || acesso.isPermanentlyDenied) {
-        /* final msg =
-            "Se a permissão permanecer como negada o aplicativo carregará "
-            "mais lentamente."; */ //TODO
-        //Armazenamento.abrirConfiguracoesApp(context, msg);
-      }
-    } else {
-      try {
-        // Usar arquivo no armazenamento
-        return await json.decode(await file.readAsString());
-      } catch (e) {
-        if (kDebugMode) {
-          print(e.toString());
-        }
-      }
-    }
-    return await _carregarJsonFromAsset(
-        Armazenamento.ASSETS_JSON_MATRIZ_DE_REFERENCIA);
+    _subItens = List<Item>.from(itens);
+    _streamSubItens.add(_subItens);
   }
 
   Future<void> _carregarMatriz() async {
-    final map = await _getMatriz();
-    // Esse "map" contem apenas um elemento. A key desse elemento é "MT"
-    final List list = map["MT"];
-    list.forEach((_) {
-      final Map map = _;
-      final idCompetencia = _parceIntIfString(map[KEY_ID_COMPETENCIA]);
-      final idHabilidade = _parceIntIfString(map[KEY_ID_HABILIDADE]);
-      Competencia competencia = competencias.putIfAbsent(
-        idCompetencia,
-        () => Competencia(
-          id: idCompetencia,
-          descricao: map[KEY_COMPETENCIA],
-        ),
-      );
-      habilidades[idHabilidade] = Habilidade(
-        id: idHabilidade,
-        descricao: map[KEY_HABILIDADE],
+    final competenciasData = await _repository.fetchCompetencias();
+    final habilidadesData = await _repository.fetchHabilidades();
+
+    competencias.clear();
+    habilidades.clear();
+
+    for (final dadosCompetencia in competenciasData) {
+      final id = _parseInt(dadosCompetencia[KEY_COMPETENCIA_ID]);
+      final descricao = dadosCompetencia[KEY_COMPETENCIA_DESCRICAO]?.toString() ?? '';
+      competencias[id] = Competencia(id: id, descricao: descricao);
+    }
+
+    for (final dadosHabilidade in habilidadesData) {
+      final id = _parseInt(dadosHabilidade[KEY_HABILIDADE_ID]);
+      final descricao = dadosHabilidade[KEY_HABILIDADE_DESCRICAO]?.toString() ?? '';
+      final idCompetencia = _parseInt(dadosHabilidade[KEY_HABILIDADE_COMPETENCIA]);
+      final competencia = competencias[idCompetencia];
+      if (competencia == null) {
+        if (kDebugMode) {
+          print('Competência $idCompetencia não encontrada para habilidade $id');
+        }
+        continue;
+      }
+      habilidades[id] = Habilidade(
+        id: id,
+        descricao: descricao,
         competencia: competencia,
       );
-    });
+    }
   }
 
-  /// TODO: Métodos para trabalhar com arquivos.
-  /// Ainda não estão sendo usados.
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
+  int _parseInt(dynamic source) {
+    final parsed = _tryParseInt(source);
+    if (parsed == null) {
+      throw FormatException('Valor inteiro inválido: $source');
+    }
+    return parsed;
   }
 
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/counter.txt');
-  }
-
-  // ignore: unused_element
-  Future<File> _writeInFile(int counter) async {
-    final file = await _localFile;
-    // Write the file.
-    return file.writeAsString('$counter');
+  int? _tryParseInt(dynamic source) {
+    if (source == null) {
+      return null;
+    }
+    if (source is int) {
+      return source;
+    }
+    if (source is double) {
+      return source.toInt();
+    }
+    return int.tryParse(source.toString());
   }
 }

@@ -1,0 +1,8 @@
+name: supabase_connect
+version: 0.1.0
+publish_to: none
+description: Minimal Supabase REST client.
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+dependencies:
+  http: ^1.2.2

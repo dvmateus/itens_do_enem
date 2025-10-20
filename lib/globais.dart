@@ -2,19 +2,21 @@ import 'dart:collection';
 import 'package:itens_do_enem/dados.dart';
 import 'package:itens_do_enem/item.dart';
 
-//Keys de db.json
-const COL_ID_ORDEM = "COL_ID_ORDEM";
-const COL_GABARITO = "COL_GABARITO";
-const COL_ID_HABILIDADE = "COL_ID_HABILIDADE";
-const COL_ID_PROVA = "COL_ID_PROVA";
-const COL_ANO = "COL_ANO";
-const COL_NUM_PAGE_CADERNO = "COL_NUM_PAGE_CADERNO";
+// Colunas da tabela `db`
+const COL_ID_ORDEM = "ordem";
+const COL_GABARITO = "gabarito";
+const COL_ID_HABILIDADE = "id_habilidade";
+const COL_ID_PROVA = "id_prova";
+const COL_ANO = "ano";
+const COL_NUM_PAGE_CADERNO = "num_page_caderno";
+const COL_ID_COMPETENCIA = "id_competencia";
 
-//Keys de matriz_de_referencia.json
-const KEY_ID_COMPETENCIA = "ID_COMPETENCIA";
-const KEY_COMPETENCIA = "COMPETENCIA";
-const KEY_ID_HABILIDADE = "ID_HABILIDADE";
-const KEY_HABILIDADE = "HABILIDADE";
+// Colunas das tabelas de matriz de referência
+const KEY_COMPETENCIA_ID = "id";
+const KEY_COMPETENCIA_DESCRICAO = "descricao";
+const KEY_HABILIDADE_ID = "id";
+const KEY_HABILIDADE_DESCRICAO = "descricao";
+const KEY_HABILIDADE_COMPETENCIA = "id_competencia";
 
 List<Item> itens = <Item>[];
 Map<int, Competencia> competencias = Map<int, Competencia>();

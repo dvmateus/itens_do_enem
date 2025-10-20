@@ -25,7 +25,7 @@ class Item{
   final int idOrdem;
   final int idProva;
   final int numPageCaderno;
-  late final int competencia;
+  final int competencia;
 
   Item({
     required this.ano,
@@ -33,16 +33,19 @@ class Item{
     required this.idHabilidade,
     required this.idOrdem,
     required this.idProva,
-    required this. numPageCaderno,
-  }) : 
-      assert (idHabilidade > 0 && idHabilidade <= 30)
-  {
-    if (idHabilidade < 6) competencia = 1;
-    else if (idHabilidade < 10) competencia = 2;
-    else if (idHabilidade < 15) competencia = 3;
-    else if (idHabilidade < 19) competencia = 4;
-    else if (idHabilidade < 24) competencia = 5;
-    else if (idHabilidade < 27) competencia = 6;
-    else competencia = 7;
+    required this.numPageCaderno,
+    int? idCompetencia,
+  }) :
+      assert(idHabilidade > 0),
+      competencia = idCompetencia ?? _competenciaPorHabilidade(idHabilidade);
+
+  static int _competenciaPorHabilidade(int idHabilidade) {
+    if (idHabilidade < 6) return 1;
+    if (idHabilidade < 10) return 2;
+    if (idHabilidade < 15) return 3;
+    if (idHabilidade < 19) return 4;
+    if (idHabilidade < 24) return 5;
+    if (idHabilidade < 27) return 6;
+    return 7;
   }
 }
